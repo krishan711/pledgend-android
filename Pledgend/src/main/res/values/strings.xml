@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Pledgend</string>
+    <string name="activity_title_login">Login</string>
+    <string name="username">Username</string>
+    <string name="sign_in"><b>Sign in</b></string>
+    <string name="login_progress_signing_in">Signing in…</string>
+    <string name="login_error_username_required">Please enter your username!</string>
+    <string name="buybeer_enter_email_hint">Enter your friend's email</string>
+    <string name="buybeer_enter_email_hint">email</string>
+    <string name="buybeer_whatwouldyouliketoBuy">What would you like to Buy?</string>
+    <string name="buybeer_Beer">Beer </string>
+    <string name="buybeer_Coffee">Coffee</string>
+    <string name="buybeer_Send">Send </string>
 </resources>

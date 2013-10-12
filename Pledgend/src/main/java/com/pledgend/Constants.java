@@ -12,5 +12,4 @@ public class Constants
     public static final String WEB_PAYPAL_CLIENT_ID = "AUg6SRA6A4EXsFW8pGhkm-M1vLDSqwOtx5wpic0GhNsrh6Kn8Acnz2O1CNmA";
     public static final String WEB_PAYPAL_CLIENT_SECRET = "EPZQVRDrOQPd0GOvOBywtYUjs45U1UvRcvWdBHM6lwLH5DOfCJQ5S7toG4nX";
 
-
 }

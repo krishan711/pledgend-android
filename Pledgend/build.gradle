@@ -12,18 +12,19 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    compile 'com.koushikdutta.ion:ion:1.1.+';
+
+    compile 'com.android.support:appcompat-v7:18.0.0';
+    compile 'com.android.support:support-v4:18.0.0';
+}
+
 android {
     compileSdkVersion 18
     buildToolsVersion "18.1.0"
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 14
         targetSdkVersion 18
     }
-}
-
-dependencies {
-	compile 'com.android.support:appcompat-v7:18.0.0'
-	compile 'com.android.support:support-v4:18.0.0'
-
 }

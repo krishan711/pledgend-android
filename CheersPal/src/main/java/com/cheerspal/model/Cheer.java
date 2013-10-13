@@ -1,8 +1,9 @@
 package com.cheerspal.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Cheer
+public class Cheer implements Serializable
 {
     public long id;
     public Person sender;

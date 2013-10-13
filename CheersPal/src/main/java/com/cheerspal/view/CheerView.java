@@ -44,12 +44,12 @@ public class CheerView extends FrameLayout
             if (!isClaimed)
             {
                 text = cheer.receiver.firstName + " hasn't claimed your " + cheer.title + " yet!";
-                backgroundColor = Color.rgb(255, 0, 0);
+                backgroundColor = Color.rgb(158, 113, 205);
             }
             else
             {
                 text = cheer.receiver.firstName + " claimed your " + cheer.title;
-                backgroundColor = Color.rgb(200, 200, 200);
+                backgroundColor = Color.rgb(205, 113, 154);
             }
         }
         else
@@ -57,12 +57,12 @@ public class CheerView extends FrameLayout
             if (!isClaimed)
             {
                 text = "You still need to claim " + cheer.sender.firstName + "'s " + cheer.title + "!";
-                backgroundColor = Color.rgb(255, 255, 0);
+                backgroundColor = Color.rgb(15, 183, 148);
             }
             else
             {
                 text = "You enjoyed " + cheer.sender.firstName + "'s " + cheer.title;
-                backgroundColor = Color.rgb(200, 200, 200);
+                backgroundColor = Color.rgb(211, 207, 210);
             }
         }
 

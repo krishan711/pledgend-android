@@ -40,6 +40,8 @@ public class CreateActivity extends Activity implements TextWatcher, View.OnClic
     private View btnCoffee;
     private View btnSend;
 
+    private Person recipient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -209,18 +211,19 @@ public class CreateActivity extends Activity implements TextWatcher, View.OnClic
             }
             else
             {
+                CreateActivity.this.recipient = person;
+                tvRecipientName.setText("Say cheers to " + person.firstName);
+                tvRecipientEmail.setText(person.id);
                 goToConfirm();
             }
         }
     }
 
-    public class CreatePaymentTask extends AsyncTask<String, Void, Person>
+    private class CreatePaymentTask extends AsyncTask<String, Void, Boolean>
     {
         @Override
         protected void onPreExecute()
         {
-            super.onPreExecute();
-
             vInitial.setVisibility(View.GONE);
             vProgress.setVisibility(View.VISIBLE);
             vConfirm.setVisibility(View.GONE);
@@ -230,17 +233,18 @@ public class CreateActivity extends Activity implements TextWatcher, View.OnClic
         }
 
         @Override
-        protected Person doInBackground(String... recipientId)
+        protected Boolean doInBackground(String... recipientId)
         {
-            String params = "?" + "title=" + (btnPint.isSelected() ? "Pint" : "Coffee")
-                    + "&" + "amount=" + 350
-                    + "&" + "sender_id=" + ((CheersPalApplication) getApplication()).user.id
-                    + "&" + "reciever_id=" + recipientId[0]
-                    + "&" + "sent_time=" + new Date().getTime();
             try
             {
+                String params2 = "?" + "title=" + (btnPint.isSelected() ? "Pint" : "Coffee")
+                        + "&" + "amount=" + 350
+                        + "&" + "sender_id=" + ((CheersPalApplication) getApplication()).user.id
+                        + "&" + "receiver_id=" + recipientId[0]
+                        + "&" + "sent_time=" + new Date().getTime();
+
                 DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(WebStuff.CHEERS_URL + params);
+                HttpPost httpPost = new HttpPost(WebStuff.CHEERS_URL + params2);
 
                 HttpResponse response = httpClient.execute(httpPost);
                 Log.i("Cheerspal", response.getStatusLine().toString());
@@ -253,11 +257,9 @@ public class CreateActivity extends Activity implements TextWatcher, View.OnClic
                     Log.i("Cheerspal", "result: " + result);
 
                     JsonObject responseObject = new JsonParser().parse(result).getAsJsonObject();
+                    responseObject.get("success").getAsString();
 
-                    String firstName = responseObject.get("first_name").getAsString();
-                    String lastName = responseObject.get("last_name").getAsString();
-
-                    return new Person(firstName, lastName, recipientId[0]);
+                    return true;
                 }
                 else
                 {
@@ -268,21 +270,19 @@ public class CreateActivity extends Activity implements TextWatcher, View.OnClic
             {
             }
 
-            return null;
+            return false;
         }
 
         @Override
-        protected void onPostExecute(Person person)
+        protected void onPostExecute(Boolean success)
         {
-            super.onPostExecute(person);
-
-            if (person == null)
+            if (success)
             {
-                goToInitial(true);
+                finish();
             }
             else
             {
-                goToConfirm();
+                goToInitial(true);
             }
         }
     }

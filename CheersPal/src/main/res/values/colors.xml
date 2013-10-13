@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="donatable_selected">#55ff0000</color>
+    <color name="donatable_selected">#884da1ec</color>
+    <color name="primary_blue">#00549F</color>
+    <color name="primary_blue_down">#1D3C58</color>
+    <color name="primary_blue_disabled">#99BCDA</color>
+    <color name="button_shadow">#D7D7D7</color>
+    <color name="white">#fff</color>
 </resources>

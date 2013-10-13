@@ -6,4 +6,5 @@ public class WebStuff
     public static final String CHEERS_URL = BASE_URL + "gifts";
     public static final String LOGIN_URL = BASE_URL + "login";
     public static final String USER_URL = BASE_URL + "user";
+    public static final String PHOTO_URL = BASE_URL + "photo";
 }

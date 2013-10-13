@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 import com.cheerspal.adapter.CheerAdapter;
 import com.cheerspal.model.Cheer;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class OverviewActivity extends Activity
+public class OverviewActivity extends Activity implements AdapterView.OnItemClickListener
 {
     private CheerAdapter cheerAdapter;
     private List<Cheer> cheers;
@@ -37,8 +40,17 @@ public class OverviewActivity extends Activity
         setContentView(R.layout.activity_overview);
 
         cheerAdapter = new CheerAdapter(this);
+        ListView listView = (ListView) findViewById(R.id.lv_cheers);
+        listView.setAdapter(cheerAdapter);
+        listView.setOnItemClickListener(this);
+    }
 
+    @Override
+    protected void onResume()
+    {
         new GetCheersTask().execute(((CheersPalApplication) getApplication()).user);
+
+        super.onResume();
     }
 
     @Override
@@ -64,6 +76,27 @@ public class OverviewActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        Cheer cheer = cheers.get(position);
+        Intent intent = null;
+        if (cheer.receiver.id.equals(((CheersPalApplication) getApplication()).user.id) && cheer.claimTime == null)
+        {
+            intent = new Intent(this, RespondActivity.class);
+        }
+        else if (!(cheer.sender.id.equals(((CheersPalApplication) getApplication()).user.id) && cheer.claimTime == null))
+        {
+            intent = new Intent(this, ViewCheerActivity.class);
+        }
+
+        if (intent !=  null)
+        {
+            intent.putExtra("CHEER", cheer);
+            startActivity(intent);
+        }
+    }
+
     public class GetCheersTask extends AsyncTask<Person, Void, List<Cheer>>
     {
         @Override
@@ -80,7 +113,7 @@ public class OverviewActivity extends Activity
             sendme.addProperty("firstname", persons[0].firstName);
             sendme.addProperty("lastname", persons[0].lastName);
 
-            String params = "?" + "email=" + persons[0].id + "&" + "firstname=" +  persons[0].firstName +  "&" + "lastname=" +  persons[0].lastName;
+            String params = "?" + "email=" + persons[0].id + "&" + "firstname=" + persons[0].firstName + "&" + "lastname=" + persons[0].lastName;
 
             try
             {

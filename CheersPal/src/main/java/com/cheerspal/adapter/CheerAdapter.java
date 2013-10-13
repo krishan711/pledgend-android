@@ -1,6 +1,7 @@
 package com.cheerspal.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -21,14 +22,15 @@ public class CheerAdapter extends BaseAdapter
 
     public void setCheers(List<Cheer> cheers)
     {
+        Log.i("cheerspal", "cheers set");
         this.cheers = cheers;
-        notifyDataSetChanged();
+        notifyDataSetInvalidated();
     }
 
     @Override
     public int getCount()
     {
-        return cheers.size();
+        return cheers != null ? cheers.size() : 0;
     }
 
     @Override
@@ -46,6 +48,7 @@ public class CheerAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
+        Log.i("cheerspal", "get view");
         CheerView view = (CheerView) convertView;
         if (view == null)
             view = new CheerView(context);

@@ -1,10 +1,12 @@
 package com.cheerspal.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import com.cheerspal.CheersPalApplication;
 import com.cheerspal.R;
 import com.cheerspal.model.Cheer;
 
@@ -31,8 +33,40 @@ public class CheerView extends FrameLayout
     {
         this.cheer = cheer;
 
-//        boolean isSent =
+        boolean isSent = CheersPalApplication.getInstance().user.id.equals(cheer.sender.id);
+        boolean isClaimed = cheer.claimTime != null;
 
-//        tvTitle.setText();
+        String text;
+        int backgroundColor;
+
+        if (isSent)
+        {
+            if (!isClaimed)
+            {
+                text = cheer.receiver.firstName + " hasn't claimed your " + cheer.title + " yet!";
+                backgroundColor = Color.rgb(255, 0, 0);
+            }
+            else
+            {
+                text = cheer.receiver.firstName + " claimed your " + cheer.title;
+                backgroundColor = Color.rgb(200, 200, 200);
+            }
+        }
+        else
+        {
+            if (!isClaimed)
+            {
+                text = "You still need to claim " + cheer.sender.firstName + "'s " + cheer.title + "!";
+                backgroundColor = Color.rgb(255, 255, 0);
+            }
+            else
+            {
+                text = "You enjoyed " + cheer.sender.firstName + "'s " + cheer.title;
+                backgroundColor = Color.rgb(200, 200, 200);
+            }
+        }
+
+        tvTitle.setText(text);
+        setBackgroundColor(backgroundColor);
     }
 }

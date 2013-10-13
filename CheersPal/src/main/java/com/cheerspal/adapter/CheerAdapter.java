@@ -22,6 +22,7 @@ public class CheerAdapter extends BaseAdapter
     public void setCheers(List<Cheer> cheers)
     {
         this.cheers = cheers;
+        notifyDataSetChanged();
     }
 
     @Override

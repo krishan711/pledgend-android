@@ -1,6 +1,7 @@
 package com.cheerspal;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,13 +10,14 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import com.cheerspal.adapter.CheerAdapter;
 import com.cheerspal.model.Cheer;
+import com.cheerspal.model.Person;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -36,7 +38,7 @@ public class OverviewActivity extends Activity
 
         cheerAdapter = new CheerAdapter(this);
 
-        new GetCheersTask().execute(((CheersPalApplication) getApplication()).userId, ((CheersPalApplication) getApplication()).accessToken);
+        new GetCheersTask().execute(((CheersPalApplication) getApplication()).user);
     }
 
     @Override
@@ -53,15 +55,17 @@ public class OverviewActivity extends Activity
         switch (item.getItemId())
         {
             case R.id.menu_add:
-                Toast.makeText(this, "Add Clicked", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, CreateActivity.class));
+                return true;
+            case R.id.menu_refresh:
+                new GetCheersTask().execute(((CheersPalApplication) getApplication()).user);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public class GetCheersTask extends AsyncTask<String, Void, List<Cheer>>
+    public class GetCheersTask extends AsyncTask<Person, Void, List<Cheer>>
     {
-
         @Override
         protected void onPreExecute()
         {
@@ -69,19 +73,20 @@ public class OverviewActivity extends Activity
         }
 
         @Override
-        protected List<Cheer> doInBackground(String... params)
+        protected List<Cheer> doInBackground(Person... persons)
         {
             JsonObject sendme = new JsonObject();
-            sendme.addProperty("userid", params[0]);
-            sendme.addProperty("accessToken", params[1]);
+            sendme.addProperty("email", persons[0].id);
+            sendme.addProperty("firstname", persons[0].firstName);
+            sendme.addProperty("lastname", persons[0].lastName);
+
+            String params = "?" + "email=" + persons[0].id + "&" + "firstname=" +  persons[0].firstName +  "&" + "lastname=" +  persons[0].lastName;
 
             try
             {
                 DefaultHttpClient httpClient = new DefaultHttpClient();
-//                HttpPost httpPost = new HttpPost(WebStuff.CHEERS_URL);
-//                httpPost.setEntity(new StringEntity(sendme.toString()));
+                HttpPost httpPost = new HttpPost(WebStuff.LOGIN_URL + params);
 
-                HttpGet httpPost = new HttpGet(WebStuff.CHEERS_URL);
                 HttpResponse response = httpClient.execute(httpPost);
                 Log.i("Cheerspal", response.getStatusLine().toString());
 
@@ -103,12 +108,26 @@ public class OverviewActivity extends Activity
 
                         JsonObject responseObject = responseElement.getAsJsonObject();
 
-                        int id = responseObject.get("id").getAsInt();
-                        String sender = responseObject.get("sender").getAsString();
-                        String receiver = responseObject.get("receiver").getAsString();
+                        int id = responseObject.get("gift_id").getAsInt();
                         int amount = responseObject.get("amount").getAsInt();
                         String title = responseObject.get("title").getAsString();
                         Date sentTime = new Date(responseObject.get("sent_time").getAsLong());
+
+                        JsonObject senderObj = responseObject.get("sender").getAsJsonObject();
+
+                        String firstName = senderObj.get("firstname").getAsString();
+                        String lastName = senderObj.get("lastname").getAsString();
+                        String email = senderObj.get("email").getAsString();
+
+                        Person sender = new Person(firstName, lastName, email);
+
+                        JsonObject receiverObj = responseObject.get("receiver").getAsJsonObject();
+
+                        firstName = receiverObj.get("firstname").getAsString();
+                        lastName = receiverObj.get("lastname").getAsString();
+                        email = receiverObj.get("email").getAsString();
+
+                        Person receiver = new Person(firstName, lastName, email);
 
                         Cheer cheer = new Cheer(id, sender, receiver, amount, title, sentTime);
 

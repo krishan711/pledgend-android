@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import com.cheerspal.model.Person;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.json.JSONException;
@@ -32,7 +33,7 @@ public class LoginActivity extends Activity
 
         helper = AccessHelperConnect.init(Constants.WEB_PAYPAL_CLIENT_ID, Constants.WEB_PAYPAL_CLIENT_SECRET);
 
-        progress = ProgressDialog.show(LoginActivity.this, "Loading", "Loading");
+        progress = ProgressDialog.show(LoginActivity.this, null, "Loading PayPal Login");
 
         webView.loadUrl(helper.getAuthUrl());
     }
@@ -108,10 +109,12 @@ public class LoginActivity extends Activity
                     Log.i("cheerspal", "access token: " + accessToken);
 
                     JsonObject resultObj = new JsonParser().parse(result).getAsJsonObject();
-                    String userEmail = resultObj.get("email").getAsString();
+                    String userEmail = resultObj.get("email").getAsString().toLowerCase();
+                    String firstName = resultObj.get("given_name").getAsString().toLowerCase();
+                    String lastName = resultObj.get("family_name").getAsString().toLowerCase();
 
                     ((CheersPalApplication) getApplication()).accessToken = accessToken;
-                    ((CheersPalApplication) getApplication()).userId = userEmail;
+                    ((CheersPalApplication) getApplication()).user = new Person(firstName, lastName, userEmail);
 
                     startActivity(new Intent(LoginActivity.this, OverviewActivity.class));
                     finish();

@@ -5,15 +5,15 @@ import java.util.Date;
 public class Cheer
 {
     public long id;
-    public String sender;
-    public String receiver;
+    public Person sender;
+    public Person receiver;
     public int amount;
     public String title;
     public Date sentTime;
     public Date claimTime;
     public boolean charity;
 
-    public Cheer(long id, String sender, String receiver, int amount, String title, Date sentTime)
+    public Cheer(long id, Person sender, Person receiver, int amount, String title, Date sentTime)
     {
         this.id = id;
         this.sender = sender;

@@ -1,0 +1,151 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context=".CreateActivity">
+
+    <LinearLayout
+        android:id="@+id/v_initial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <EditText
+                android:id="@+id/et_recipient_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Who's been good to you?" />
+
+        <Button
+                android:id="@+id/btn_check_recipient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:enabled="false"
+                android:text="Continue" />
+
+        <TextView
+                android:id="@+id/tv_recipient_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textColor="#ff0000"
+                android:visibility="gone"
+                android:text="Woops! Theres no user with this email address. Please check the email above. If its correct, please get your friend to download Cheers Pal!" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/v_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+        <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center_vertical"
+                android:text="Checking your friends email..." />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/v_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|top"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/tv_recipient_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="24sp"
+                android:text="Say cheers to (name)" />
+
+        <TextView
+                android:id="@+id/tv_recipient_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_vertical"
+                android:textSize="16sp"
+                android:text="Friends email"  />
+
+        <LinearLayout
+                android:id="@+id/btn_pint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:background="@drawable/dontable_background"
+                android:orientation="horizontal">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/beer_icon"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    android:background="@android:color/transparent"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Send them a pint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/btn_coffee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|top"
+                android:clickable="true"
+                android:background="@drawable/dontable_background"
+                android:orientation="horizontal">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/cup_coffee_icon"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    android:background="@android:color/transparent"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Send them a coffee"/>
+
+        </LinearLayout>
+
+        <Button
+                android:id="@+id/btn_send"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="Send" />
+
+    </LinearLayout>
+
+</FrameLayout>
